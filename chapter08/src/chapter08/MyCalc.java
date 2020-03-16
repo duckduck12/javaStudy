@@ -15,6 +15,8 @@ public class MyCalc {
 		System.out.println("값을 입력하세요 : ");
 		String mystr2 = scan.next();
 		System.out.println("입력된 값은 : " + mystr2);
+		
+		scan.close();
 
 	}
 
