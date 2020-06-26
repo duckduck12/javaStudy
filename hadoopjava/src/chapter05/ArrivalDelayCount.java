@@ -12,40 +12,35 @@ import org.apache.hadoop.mapreduce.lib.input.TextInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.apache.hadoop.mapreduce.lib.output.TextOutputFormat;
 
-public class DepartureDelayCount {
-	
-	public static void main(String[] args) throws Exception {
+public class ArrivalDelayCount {
+
+	public static void main(String[] args) throws IOException, ClassNotFoundException, InterruptedException {
 		// TODO Auto-generated method stub
+
 		Configuration conf = new Configuration();
 		
 		if(args.length != 2) {
-			System.err.println("Usage : DepartureDelayCount <input> <input>");
+			System.err.println("Usage : ArrivalDelayCount <input> <output>");
 			System.exit(2);
 		}
 		
-		Job job = new Job(conf, "DepartureDelayCount");
+		Job job = new Job(conf, "ArrivalDelayCount");
 		
 		FileInputFormat.addInputPath(job, new Path(args[0]));
 		FileOutputFormat.setOutputPath(job, new Path(args[1]));
 		
-		// 잡클래스 설정 
-		job.setJarByClass(DepartureDelayCount.class);
+		job.setJarByClass(ArrivalDelayCount.class);
 		
-		// 매퍼 클래스 설정 
-		job.setMapperClass(DepartureDelayCountMapper.class);
+		job.setMapperClass(ArrivalDelayCountMapper.class);
 		
-		// 리듀서 클래스 설정 
 		job.setReducerClass(DelayCountReducer.class);
 		
-		// 입출력 포맷 설정 
 		job.setInputFormatClass(TextInputFormat.class);
 		job.setOutputFormatClass(TextOutputFormat.class);
 		
-		// 출력키 출력값 유형 설정 
 		job.setOutputKeyClass(Text.class);
 		job.setOutputValueClass(IntWritable.class);
 		
-		// 요청시작 
 		job.waitForCompletion(true);
 	}
 
