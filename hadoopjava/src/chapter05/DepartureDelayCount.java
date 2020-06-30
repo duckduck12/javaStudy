@@ -46,7 +46,7 @@ public class DepartureDelayCount {
 		job.setOutputValueClass(IntWritable.class);
 		
 		// 요청시작 
-		job.waitForCompletion(true);
+		job.waitForCompletion(true); 
 	}
 
 }
