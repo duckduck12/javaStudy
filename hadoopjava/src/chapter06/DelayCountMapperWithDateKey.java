@@ -38,5 +38,21 @@ public class DelayCountMapperWithDateKey extends Mapper<LongWritable, Text, Date
 		}
 		
 		// 여기까지 해둠 
+		if(parser.isArriveDelayAvailable()) {
+			if(parser.getArriveDelayTime()>0) {
+				outputKey.setYear("A,"+parser.getYear());
+				outputKey.setMonth(parser.getMonth());
+				context.write(outputKey, outputValue);
+			}
+			else if(parser.getArriveDelayTime() == 0) {
+				context.getCounter(DelayCounters.scheduled_arrival).increment(1);
+			}
+			else if (parser.getArriveDelayTime() < 0) {
+				context.getCounter(DelayCounters.early_arrival).increment(1);
+			}
+		}
+		else {
+			context.getCounter(DelayCounters.not_available_arrival).increment(1);
+		}
 	}
 }
